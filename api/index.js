@@ -48,6 +48,16 @@ const mapTurnToXorO = (game, user) => user ? userMarker(game, user) : 'N'
 const mapGameToXsAndOs = (game) => game.game.map(user => mapTurnToXorO(game, user))
 const formatGame = (game) => turnKey(game) + mapGameToXsAndOs(game).join("")
 
+router.get('/delete', async (req, res) => {
+    try {
+        await Game.destroy({ where: { result: null } })
+        res.send(null)
+    }
+    catch (err) {
+        console.log(err)
+    }
+})
+
 router.get('/reset', async (req, res) => {
     try {
         await Game.destroy({ where: {}, truncate: true })
